@@ -58,7 +58,6 @@ module.exports = new Promise(function (fcm_id, notificationObject, google_key, r
     return reject(error);
   })
 
-  req.write(data);
   req.end();
   resolve(data);
   // }, (err, response, body) => {
