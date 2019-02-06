@@ -43,8 +43,7 @@ module.exports = new Promise(function (fcm_id, notificationObject, google_key, r
     method: 'POST',
     headers: {
       Authorization: `key=${google_key}`,
-      'Content-Type': 'application/json',
-      'Content-Length': data.length
+      'Content-Type': 'application/json'
     }
   }
 
