@@ -21,6 +21,7 @@ module.exports = (fcm_id, notificationObject, google_key, cb) => {
     priority: 'high',
     content_available: true
   };
+  fcmBody.notification = notificationObject.notification;
   // if (_.isObject(notificationObject.notification) && !_.isArray(notificationObject.notification)) {
   //   fcmBody.notification = _.clone(notificationObject.notification);
   //   if (!fcmBody.notification.sound) {
