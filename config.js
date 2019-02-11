@@ -3,7 +3,7 @@ var enviroment = {
   google: {
     url: 'https://maps.googleapis.com',
     roads: 'https://roads.googleapis.com/v1',
-    fcm: 'https://fcm.googleapis.com/fcm/send'
+    fcm: 'https://fcm.googleapis.com'
   }
 };
 module.exports = enviroment;

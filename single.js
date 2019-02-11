@@ -1,13 +1,12 @@
 'use strict';
 
-const _ = require('lodash');
-const request = require('https');
+
 const config = require('./config');
 const https = require('https');
 
 
 
-module.exports = new Promise(function (fcm_id, notificationObject, google_key, resolve, reject) {
+module.exports = (fcm_id, notificationObject, google_key, cb) => {
   // if (!_.isString(fcm_id)) {
   //   return reject('error');
   // }
@@ -17,11 +16,11 @@ module.exports = new Promise(function (fcm_id, notificationObject, google_key, r
   // if (!fcm_id.length) {
   //   return reject('error');
   // }
-  // let fcmBody = {
-  //   registration_ids: fcm_id,
-  //   priority: 'high',
-  //   content_available: true
-  // };
+  let fcmBody = {
+    registration_ids: fcm_id,
+    priority: 'high',
+    content_available: true
+  };
   // if (_.isObject(notificationObject.notification) && !_.isArray(notificationObject.notification)) {
   //   fcmBody.notification = _.clone(notificationObject.notification);
   //   if (!fcmBody.notification.sound) {
@@ -37,13 +36,15 @@ module.exports = new Promise(function (fcm_id, notificationObject, google_key, r
   // if (notificationObject.data) {
   //   fcmBody.data = _.clone(notificationObject.data);
   // }
-  let data = JSON.stringify(notificationObject);
+  let data = JSON.stringify(fcmBody);
   const options = {
     hostname: config.google.fcm,
     method: 'POST',
+    path: '/fcm/send',
     headers: {
       Authorization: `key=${google_key}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Content-Length': data.length
     }
   }
 
@@ -55,11 +56,12 @@ module.exports = new Promise(function (fcm_id, notificationObject, google_key, r
   })
 
   req.on('error', (error) => {
-    return reject(error);
+    return cb(error)
   })
 
+  req.write(data);
   req.end();
-  resolve(data);
+  cb(null, 'done');
   // }, (err, response, body) => {
   //   if (err || response.statusCode !== 200) {
   //     console.log('Sent single err - Problems consulting directions api.', err, body);
