@@ -39,27 +39,27 @@ module.exports = function (fcm_id, notificationObject, google_key) {
     //   fcmBody.data = _.clone(notificationObject.data);
     // }
     let data = JSON.stringify(fcmBody);
-    const options = {
+    let options = {
       hostname: config.google.fcm,
       method: 'POST',
       path: '/fcm/send',
       headers: {
         Authorization: `key=${google_key}`,
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': data.length
       }
-    }
+    };
 
-    const req = https.request(options, (res) => {
-      console.log(`statusCode: ${res.statusCode}`)
-      res.on('data', (d) => {
-        process.stdout.write(d)
-      })
-    })
+    let req = https.request(options, function (res) {
+      res.on('data', function (chunk) {
+        console.log('Response: ' + chunk);
+      });
+    });
 
-    req.on('error', (error) => {
-      reject(error)
-    })
+    req.on('error', function (error) {
+      console.log(error);
+      reject(error);
+    });
 
     req.write(data);
     req.end();
