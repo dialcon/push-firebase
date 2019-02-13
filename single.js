@@ -1,7 +1,6 @@
 'use strict';
 
 
-const config = require('./config');
 const https = require('https');
 
 
@@ -40,7 +39,7 @@ module.exports = function (fcm_id, notificationObject, google_key) {
     // }
     let data = JSON.stringify(fcmBody);
     let options = {
-      hostname: config.google.fcm,
+      hostname: 'fcm.googleapis.com',
       method: 'POST',
       path: '/fcm/send',
       headers: {
