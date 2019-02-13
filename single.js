@@ -44,7 +44,7 @@ module.exports = function (fcm_id, notificationObject, google_key) {
       path: '/fcm/send',
       headers: {
         Authorization: `key=${google_key}`,
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
         'Content-Length': data.length
       }
     };
