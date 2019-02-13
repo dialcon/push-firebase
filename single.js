@@ -14,9 +14,9 @@ module.exports = function (fcm_id, notificationObject, google_key) {
     // if (_.isEmpty(google_key)) {
     //   return reject('error');
     // }
-    // if (!fcm_id.length) {
-    //   return reject('error');
-    // }
+    if (!fcm_id.length) {
+      return reject('error');
+    }
     let fcmBody = {
       registration_ids: fcm_id,
       priority: 'high',
