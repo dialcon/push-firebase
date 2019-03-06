@@ -7,12 +7,9 @@ const https = require('https');
 
 module.exports = function (fcm_id, notificationObject, google_key) {
   return new Promise(function (resolve, reject) {
-    // if (!_.isString(fcm_id)) {
-    //   return reject('error');
-    // }
-    // if (_.isEmpty(google_key)) {
-    //   return reject('error');
-    // }
+    if (_.isEmpty(google_key)) {
+      return reject('error');
+    }
     if (!fcm_id.length) {
       return reject('error');
     }
@@ -44,8 +41,7 @@ module.exports = function (fcm_id, notificationObject, google_key) {
       path: '/fcm/send',
       headers: {
         Authorization: `key=${google_key}`,
-        'Content-Type': 'application/json',
-        'Content-Length': data.length
+        'Content-Type': 'application/json'
       }
     };
 
@@ -63,21 +59,7 @@ module.exports = function (fcm_id, notificationObject, google_key) {
     req.write(data);
     req.end();
     resolve(null, 'done');
-    // }, (err, response, body) => {
-    //   if (err || response.statusCode !== 200) {
-    //     console.log('Sent single err - Problems consulting directions api.', err, body);
-    //     return cb(null, {});
-    //   }
-    //   let res_fcm = {};
-    //   _.forEach(body.results, (r, index) => {
-    //     if (!res_fcm[fcm_inverse[fcm_ids[index]]]) {
-    //       res_fcm[fcm_inverse[fcm_ids[index]]] = [];
-    //     }
-    //     //busca el id en el conductor
-    //     res_fcm[fcm_inverse[fcm_ids[index]]].push(r);
-    //   });
-    //   return cb(null, res_fcm);
-    // });
+
   });
 };
 
